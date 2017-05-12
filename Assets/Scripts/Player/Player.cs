@@ -50,7 +50,7 @@ public class Player : NetworkBehaviour {
     }
 
     if (health <= 0 && !isDead) {
-      Player p = null;
+      /*Player p = null;
       foreach (Player player in GameManager.GetPlayers()) {
         if (!player.isDead && player.isReady && player != this) {
           p = player;
@@ -58,9 +58,9 @@ public class Player : NetworkBehaviour {
         }
       }
       if (p != null)
-        GetComponent<PlayerSpectatorMode>().EnableSpectatorMode(p.transform);
+        GetComponent<PlayerSpectatorMode>().EnableSpectatorMode(p.transform);*/
 
-      ui.ShowDeathScreen("Maybe next time...");
+      ui.ShowDeathScreen("Maybe next time..., wait for end round.");
       CmdPlayerDie();
     }
 
@@ -135,7 +135,7 @@ public class Player : NetworkBehaviour {
       }
 
       if (GameManager.instance.isRoundOn)
-        p.health -= 1;
+        p.health -= 10;
 
       if (p.health <= 0 && !p.isDead) {
         score++;
@@ -152,15 +152,15 @@ public class Player : NetworkBehaviour {
     isDead = true;
     graphics.CmdHideAllGraphics();
 
-    RpcPlayerDie();
+    //RpcPlayerDie();
   }
 
-  [ClientRpc]
+  /*[ClientRpc]
   void RpcPlayerDie() {
     if (!isLocalPlayer)
       return;
     // ...
-  }
+  }*/
 
   [Command]
   void CmdSetNickname(string nick) {
@@ -181,6 +181,7 @@ public class Player : NetworkBehaviour {
 
   [ClientRpc]
   public void RpcSetTeam(Team t) {
+    Debug.Log("Setting team graphics (" + t.ToString() + ") for player: " + nickname);
     graphics.UpdateGraphics(t, true);
 
     if (isLocalPlayer) {
@@ -197,12 +198,7 @@ public class Player : NetworkBehaviour {
   [Command]
   void CmdResetStats() {
     isDead = false;
-
-    if (team == Team.Hiders) {
-      health = 10;
-    } else if (team == Team.Seekers) {
-      health = 100;
-    }
+    health = 100;
   }
 
   [Command]
@@ -220,6 +216,8 @@ public class Player : NetworkBehaviour {
     //graphics.UpdateGraphics(team, true);
     //graphics.CmdRestartGraphics(team);
     GetComponent<PlayerSpawner>().Spawn();
-    GetComponent<PlayerSpectatorMode>().DisableSpectatorMode();
+    ui.HideDeathScreen();
+    //ui.deathScreen.SetActive(false);
+    //GetComponent<PlayerSpectatorMode>().DisableSpectatorMode();
   }
 }

@@ -72,13 +72,10 @@ public class GameManager : NetworkBehaviour {
 
       if (aliveHiders == 0) {
         CmdEndRound(EndRoundReason.NoHiders, true);
-        CmdSwapTeams();
       } else if (aliveSeekers == 0) {
         CmdEndRound(EndRoundReason.NoSeekers, true);
-        CmdSwapTeams();
       } else if (roundTime <= 0.0f) {
         CmdEndRound(EndRoundReason.Timeout, true);
-        CmdSwapTeams();
       }
 
       if (roundTime <= 270.0f && !allowSeekers) {
@@ -97,9 +94,9 @@ public class GameManager : NetworkBehaviour {
   [Command]
   void CmdSwapTeams() {
     foreach (Player player in GetPlayers()) {
-      Player.Team newTeam = player.team == Player.Team.Seekers ? Player.Team.Hiders : Player.Team.Seekers;
+      player.CmdSetTeam(player.team == Player.Team.Seekers ? Player.Team.Hiders : Player.Team.Seekers);
 
-      player.CmdSetTeam(newTeam);
+      Debug.Log("Swapping teams: " + player.nickname);
     }
   }
 

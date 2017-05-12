@@ -79,6 +79,9 @@ public class PlayerController : NetworkBehaviour {
     } else if (cameraType == CameraType.ThirdPerson) {
       ThirdPersonCamera();
     }
+
+    if (transform.position.y > 15.0f) transform.position = new Vector3(transform.position.x, 4.0f, transform.position.z);
+    else if (transform.position.y < -5.0f) transform.position = new Vector3(transform.position.x, 4.0f, transform.position.z);
   }
 
   void FixedUpdate() {

@@ -102,13 +102,9 @@ public class PlayerUI : NetworkBehaviour {
   public void ShowDeathScreen(string textToShow) {
     hudController.deathScreen.SetActive(true);
     hudController.deathScreen.transform.GetChild(0).GetComponent<Text>().text = textToShow;
-
-    StartCoroutine(HideDeathScreen());
   }
 
-  IEnumerator HideDeathScreen() {
-    yield return new WaitForSeconds(3.0f);
-
+  public void HideDeathScreen() {
     hudController.deathScreen.SetActive(false);
   }
 }
