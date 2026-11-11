@@ -1,2 +1,2 @@
 # HidenSeek
-Soon...
+[https://brajanowski.itch.io/hidenseek](https://brajanowski.itch.io/hidenseek)
